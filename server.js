@@ -35,4 +35,4 @@ app.listen(port);
 console.log('Listening on port ' + port);
 
 
-app.get('/sklonovani/:id', sklonovani.findOne);
+app.get('/:id', sklonovani.findOne);
