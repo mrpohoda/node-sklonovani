@@ -7,6 +7,14 @@ block content
   div za / vložit slovo (slova) ke skloňování, oddělená libovolným znakem, který se určí parametrem "oddelovac"
   div pro skloňování životných slov zadejte parametr "zivotne=1"
 
+  form(method='post',action='')
+    textarea(name='slova',rows=5)
+    br
+    input(type='checkbox',name='zivotne',value=1)
+    span životné
+    br
+    input(type='submit',value='Odeslat')
+
   p
     em Po kliknutí do tabulky vyskloňovaných slov se text automaticky označí
   //p !{JSON.stringify(words)}

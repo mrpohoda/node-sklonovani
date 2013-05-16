@@ -12,12 +12,22 @@ var vzor = new Array(),
 
 exports.findOne = function (req, res) {
 	var separator = req.query.oddelovac || ',',
-		words = req.params.id.split(separator),
+		words,
 		zivotne,
-		result = []
+		result = [];
+
+	if (req.body.slova) {
+		words = req.body.slova.split("\n");
+		for (var i = 0; i < words.length; i++) {
+			words[i] = words[i].replace('\r', '');
+		}
+	}
+	else {
+		words = req.params.id.split(separator);
+	}
 
 	// chceme zivotne sklonovani? v url jako zivotne=1
-	if (req.query.zivotne === '1') {
+	if (req.query.zivotne === '1' || req.body.zivotne === '1') {
 		zivotne = true;
 	} else {
 		zivotne = false;
@@ -29,7 +39,7 @@ exports.findOne = function (req, res) {
 			result.push(doIt(w, zivotne));
 		});
 
-		console.log(result);
+		//console.log(result);
 		//res.json(result);
 		res.render('list', {
 			words: result

@@ -42,3 +42,4 @@ console.log('Listening on port ' + port);
 
 
 app.get('/:id', sklonovani.findOne);
+app.post('/:id', sklonovani.findOne);
