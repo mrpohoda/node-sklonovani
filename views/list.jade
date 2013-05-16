@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  h1 Skloňování slov
+  each word in words
+    .word
+      p #{word.rod} #{word.p1}

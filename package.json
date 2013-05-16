@@ -12,6 +12,8 @@
 		"start": "./node_modules/.bin/nodemon server.js"
 	},
 	"dependencies": {
-		"express": "latest"
+		"express": "latest",
+		"jade": "latest",
+		"nodemon": "latest"
 	}
 }

@@ -2,9 +2,15 @@
  * Configuration loading and booting of controllers and custom error handlers */
 
 var express = require('express'),
+	fs = require('fs'),
 	sklonovani = require('./routes/sklonovani');
 
 var app = express();
+
+app.use(express.static('public'));
+// set views path, template engine and default layout
+app.set('views', 'views');
+app.set('view engine', 'jade');
 
 //app.use(express.logger());
 app.use(express.compress());

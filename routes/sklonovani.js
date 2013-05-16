@@ -11,17 +11,28 @@ var vzor = new Array(),
 	isDbgMode = 0;
 
 exports.findOne = function (req, res) {
-	var slovo = req.params.id;
+	var slovo = req.params.id,
+		zivotne,
+		result = [];
 
 	// chceme zivotne sklonovani? v url jako zivotne=1
 	if (req.query.zivotne === '1') {
 		zivotne = true;
-	}
-	else {
+	} else {
 		zivotne = false;
 	}
 	console.log('Slovo: ' + slovo, ', zivotne:', zivotne);
 
+	result.push(vysklonuj(slovo, zivotne));
+
+	console.log(result.rod);
+	res.json(result);
+	// res.render('list', {
+	// 	words: [result]
+	// });
+};
+
+function vysklonuj(slovo, zivotne) {
 	var aTxt, i, j, str, result;
 
 	aTxt = TxtSplit(slovo);
@@ -84,8 +95,8 @@ exports.findOne = function (req, res) {
 		result.p7m = (astrTvar[14] + ' ' + result.p7m).trim();
 	}
 
-	res.json(result);
-};
+	return result;
+}
 
 //
 // Přídavná jména a zájmena
