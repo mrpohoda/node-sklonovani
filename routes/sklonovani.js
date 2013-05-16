@@ -11,9 +11,10 @@ var vzor = new Array(),
 	isDbgMode = 0;
 
 exports.findOne = function (req, res) {
-	var slovo = req.params.id,
+	var separator = req.query.oddelovac || ',',
+		words = req.params.id.split(separator),
 		zivotne,
-		result = [];
+		result = []
 
 	// chceme zivotne sklonovani? v url jako zivotne=1
 	if (req.query.zivotne === '1') {
@@ -21,18 +22,24 @@ exports.findOne = function (req, res) {
 	} else {
 		zivotne = false;
 	}
-	console.log('Slovo: ' + slovo, ', zivotne:', zivotne);
+	console.log('Slova: ' + words, ', zivotne:', zivotne, ', oddelovac', separator);
 
-	result.push(vysklonuj(slovo, zivotne));
+	try {
+		words.forEach(function(w){
+			result.push(doIt(w, zivotne));
+		});
 
-	console.log(result.rod);
-	res.json(result);
-	// res.render('list', {
-	// 	words: [result]
-	// });
+		console.log(result);
+		//res.json(result);
+		res.render('list', {
+			words: result
+		});
+	} catch (e) {
+		console.log(e);
+	}
 };
 
-function vysklonuj(slovo, zivotne) {
+function doIt(slovo, zivotne) {
 	var aTxt, i, j, str, result;
 
 	aTxt = TxtSplit(slovo);
@@ -904,15 +911,15 @@ function TxtSplit(txt) {
 //
 
 function wr0(txt) {
-	document.write(txt)
+	console.log(txt)
 }
 
 function wr(txt) {
-	document.write("<br>" + txt)
+	console.log("<br>" + txt)
 }
 
 function bwr(txt) {
-	document.write("<b><br>" + txt + "</b>")
+	console.log("<b><br>" + txt + "</b>")
 }
 
 padQst = new Array("Kdo/Co?   ", "Bez koho/čeho?", "Komu/čemu?    ", "Koho/Co?     ", "Oslovení:   ", "O kom/čem?    ", "S kým/čím?      ")
