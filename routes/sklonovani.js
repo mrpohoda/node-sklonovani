@@ -13,6 +13,7 @@ var vzor = new Array(),
 exports.findOne = function (req, res) {
 	var separator = req.query.oddelovac || ',',
 		words,
+		errors = [],
 		zivotne,
 		result = [];
 
@@ -32,17 +33,26 @@ exports.findOne = function (req, res) {
 	} else {
 		zivotne = false;
 	}
-	console.log('Slova: ' + words, ', zivotne:', zivotne, ', oddelovac', separator);
+	//console.log('Slova: ' + words, ', zivotne:', zivotne, ', oddelovac', separator);
 
+	var vysklonovane;
 	try {
 		words.forEach(function(w){
-			result.push(doIt(w, zivotne));
+			vysklonovane = doIt(w, zivotne);
+			if (typeof vysklonovane === 'object' && vysklonovane.error) {
+				errors.push(w);
+				console.log('Chyba:', w);
+			}
+			else {
+				result.push(vysklonovane);
+			}
 		});
 
 		//console.log(result);
 		//res.json(result);
 		res.render('list', {
-			words: result
+			words: result,
+			errors: errors
 		});
 	} catch (e) {
 		console.log(e);
@@ -77,10 +87,7 @@ function doIt(slovo, zivotne) {
 		var ret = skl2(aTxt[i]);
 		if (typeof ret === 'object') {
 			if (ret.error) {
-				res.json({
-					error: ret.error
-				});
-				return false;
+				return ret;
 			}
 		}
 
@@ -1067,7 +1074,7 @@ function skl2(slovo) {
 	ii = StdNdx(slovo);
 
 	if (ii < 0) {
-		console.log("Chyba: proto toto slovo nebyl nalezen vzor.");
+		//console.log("Chyba: proto toto slovo nebyl nalezen vzor.");
 		return {
 			error: "Chyba: proto toto slovo nebyl nalezen vzor."
 		}; //    return "\n  Sorry, nenasel jsem vzor.";

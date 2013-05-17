@@ -15,6 +15,14 @@ block content
     br
     input(type='submit',value='Odeslat')
 
+  if (errors.length)
+    h2 Slova, která se nepodařilo vyskloňovat
+    .errors
+      each error in errors
+        div #{error}
+      br
+      br
+
   p
     em Po kliknutí do tabulky vyskloňovaných slov se text automaticky označí
   //p !{JSON.stringify(words)}
