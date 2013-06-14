@@ -30,16 +30,11 @@ app.get('/favicon.ico', function(req, res) {
 	return;
 });
 
-app.get('/', function(req, res){
-	//console.log(req.ip);
-	//console.log(req.originalUrl);	// path is without arguments
-	res.send({working: 'ok'});
-});
-
 var port = process.env.PORT || 4444;
 app.listen(port);
 console.log('Listening on port ' + port);
 
-
+app.get('/', sklonovani.findOne);
 app.get('/:id', sklonovani.findOne);
+app.post('/', sklonovani.findOne);
 app.post('/:id', sklonovani.findOne);

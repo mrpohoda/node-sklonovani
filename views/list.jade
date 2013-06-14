@@ -15,53 +15,54 @@ block content
     br
     input(type='submit',value='Odeslat')
 
-  if (errors.length)
-    h2 Slova, která se nepodařilo vyskloňovat
-    .errors
-      each error in errors
-        div #{error}
-      br
-      br
+  - if (words.length)
+    - if (errors.length)
+      h2 Slova, která se nepodařilo vyskloňovat
+      .errors
+        each error in errors
+          div #{error}
+        br
+        br
 
-  p
-    em Po kliknutí do tabulky vyskloňovaných slov se text automaticky označí
-  //p !{JSON.stringify(words)}
-  table#table.table
-    thead
-      tr
-        th Slovo
-        th 1.p (č.j.)
-        th 2.p
-        th 3.p
-        th 4.p
-        th 5.p
-        th 6.p
-        th 7.p
-        th 1.p (č.mn.)
-        th 2.p
-        th 3.p
-        th 4.p
-        th 5.p
-        th 6.p
-        th 7.p
-    tbody
-    each word in words
-      tr.word
-        td #{word.p1j}
-        td #{word.p1j}
-        td #{word.p2j}
-        td #{word.p3j}
-        td #{word.p4j}
-        td #{word.p5j}
-        td #{word.p6j}
-        td #{word.p7j}
-        td #{word.p1m}
-        td #{word.p2m}
-        td #{word.p3m}
-        td #{word.p4m}
-        td #{word.p5m}
-        td #{word.p6m}
-        td #{word.p7m}
+    p
+      em Po kliknutí do tabulky vyskloňovaných slov se text automaticky označí
+    //p !{JSON.stringify(words)}
+    table#table.table
+      thead
+        tr
+          th Slovo
+          th 1.p (č.j.)
+          th 2.p
+          th 3.p
+          th 4.p
+          th 5.p
+          th 6.p
+          th 7.p
+          th 1.p (č.mn.)
+          th 2.p
+          th 3.p
+          th 4.p
+          th 5.p
+          th 6.p
+          th 7.p
+      tbody
+      each word in words
+        tr.word
+          td #{word.p1j}
+          td #{word.p1j}
+          td #{word.p2j}
+          td #{word.p3j}
+          td #{word.p4j}
+          td #{word.p5j}
+          td #{word.p6j}
+          td #{word.p7j}
+          td #{word.p1m}
+          td #{word.p2m}
+          td #{word.p3m}
+          td #{word.p4m}
+          td #{word.p5m}
+          td #{word.p6m}
+          td #{word.p7m}
 
 block foot
   script(type="text/javascript")

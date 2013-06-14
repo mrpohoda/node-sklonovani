@@ -13,7 +13,6 @@
 	},
 	"dependencies": {
 		"express": "latest",
-		"jade": "latest",
-		"nodemon": "latest"
+		"jade": "latest"
 	}
 }

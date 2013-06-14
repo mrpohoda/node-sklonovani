@@ -22,40 +22,46 @@ exports.findOne = function (req, res) {
 		for (var i = 0; i < words.length; i++) {
 			words[i] = words[i].replace('\r', '');
 		}
-	}
-	else {
+	} else if (req.params.id) {
 		words = req.params.id.split(separator);
 	}
 
-	// chceme zivotne sklonovani? v url jako zivotne=1
-	if (req.query.zivotne === '1' || req.body.zivotne === '1') {
-		zivotne = true;
-	} else {
-		zivotne = false;
-	}
-	//console.log('Slova: ' + words, ', zivotne:', zivotne, ', oddelovac', separator);
-
-	var vysklonovane;
-	try {
-		words.forEach(function(w){
-			vysklonovane = doIt(w, zivotne);
-			if (typeof vysklonovane === 'object' && vysklonovane.error) {
-				errors.push(w);
-				console.log('Chyba:', w);
-			}
-			else {
-				result.push(vysklonovane);
-			}
-		});
-
-		//console.log(result);
-		//res.json(result);
+	if (words === undefined) {
 		res.render('list', {
-			words: result,
-			errors: errors
+			words: [],
+			errors: null
 		});
-	} catch (e) {
-		console.log(e);
+		return;
+	} else {
+		// chceme zivotne sklonovani? v url jako zivotne=1
+		if (req.query.zivotne === '1' || req.body.zivotne === '1') {
+			zivotne = true;
+		} else {
+			zivotne = false;
+		}
+		//console.log('Slova: ' + words, ', zivotne:', zivotne, ', oddelovac', separator);
+
+		var vysklonovane;
+		try {
+			words.forEach(function (w) {
+				vysklonovane = doIt(w, zivotne);
+				if (typeof vysklonovane === 'object' && vysklonovane.error) {
+					errors.push(w);
+					console.log('Chyba:', w);
+				} else {
+					result.push(vysklonovane);
+				}
+			});
+
+			//console.log(result);
+			//res.json(result);
+			res.render('list', {
+				words: result,
+				errors: errors
+			});
+		} catch (e) {
+			console.log(e);
+		}
 	}
 };
 
@@ -97,7 +103,7 @@ function doIt(slovo, zivotne) {
 		// pokud nenajdeme vzor tak nesklonujeme
 		if (i < aTxt.length - 1 && astrTvar[0].charAt(0) == '?' && PrefRod.charAt(0) != '?') {
 			for (j = 1; j < 15; j++)
-			astrTvar[j] = aTxt[i];
+				astrTvar[j] = aTxt[i];
 		}
 
 		if (astrTvar[0].charAt(0) == '?') astrTvar[0] = '?';
@@ -808,8 +814,9 @@ function Xedeten(txt2) {
 function CmpFrm(txt) {
 	CmpFrmRV = "";
 	for (CmpFrmI = 0; CmpFrmI < txt.length; CmpFrmI++)
-	if (txt.charAt(CmpFrmI) == "0") CmpFrmRV += aCmpReg[0];
-	else if (txt.charAt(CmpFrmI) == "1") CmpFrmRV += aCmpReg[1];
+		if (txt.charAt(CmpFrmI) == "0") CmpFrmRV += aCmpReg[0];
+		else
+	if (txt.charAt(CmpFrmI) == "1") CmpFrmRV += aCmpReg[1];
 	else if (txt.charAt(CmpFrmI) == "2") CmpFrmRV += aCmpReg[2];
 	else CmpFrmRV += txt.charAt(CmpFrmI);
 
@@ -827,27 +834,27 @@ function Sklon(nPad, vzndx, txt) {
 	txt3 = Xedeten(txt);
 	kndx = isShoda(vzor[vzndx][1], txt3)
 	if (kndx < 0 || nPad < 1 || nPad > 14) //8-14 je pro plural
-	return "???";
+		return "???";
 
 	if (vzor[vzndx][nPad] == "?") return "?";
 
 	if (!isDbgMode & nPad == 1) // 1. pad nemenime
-	rv = Xdetene(txt3);
+		rv = Xdetene(txt3);
 	else rv = LeftStr(kndx, txt3) + '-' + CmpFrm(vzor[vzndx][nPad]);
 
 	if (isDbgMode) //preskoceni filtrovani
-	return rv
+		return rv
 
 	// Formatovani zivotneho sklonovani
 	// - nalezeni pomlcky
 	for (nnn = 0; nnn < rv.length; nnn++)
-	if (rv.charAt(nnn) == "-") break;
+		if (rv.charAt(nnn) == "-") break;
 
 	ndx1 = nnn;
 
 	// - nalezeni lomitka
 	for (nnn = 0; nnn < rv.length; nnn++)
-	if (rv.charAt(nnn) == "/") break;
+		if (rv.charAt(nnn) == "/") break;
 
 	ndx2 = nnn;
 
@@ -855,17 +862,17 @@ function Sklon(nPad, vzndx, txt) {
 	if (ndx1 != rv.length && ndx2 != rv.length) {
 		if (zivotne)
 		// "text-xxx/yyy" -> "textyyy"
-		rv = LeftStr(ndx1, rv) + RightStr(ndx2 + 1, rv);
+			rv = LeftStr(ndx1, rv) + RightStr(ndx2 + 1, rv);
 		else
 		// "text-xxx/yyy" -> "text-xxx"
-		rv = LeftStr(ndx2, rv);
+			rv = LeftStr(ndx2, rv);
 	}
 
 
 	// vypusteni pomocnych znaku
 	txt3 = ""
 	for (nnn = 0; nnn < rv.length; nnn++)
-	if (!(rv.charAt(nnn) == '-' || rv.charAt(nnn) == '/')) txt3 += rv.charAt(nnn);
+		if (!(rv.charAt(nnn) == '-' || rv.charAt(nnn) == '/')) txt3 += rv.charAt(nnn);
 
 	rv = Xdetene(txt3);
 
@@ -882,7 +889,7 @@ function Sklon(nPad, vzndx, txt) {
 function LeftStr(n, txt) {
 	rv = ""
 	for (i = 0; i < n && i < txt.length; i++)
-	rv += txt.charAt(i)
+		rv += txt.charAt(i)
 
 	return rv
 }
@@ -892,7 +899,7 @@ function LeftStr(n, txt) {
 function RightStr(n, txt) {
 	rv = ""
 	for (i = n; i < txt.length; i++)
-	rv += txt.charAt(i)
+		rv += txt.charAt(i)
 
 	return rv
 }
@@ -944,7 +951,7 @@ padQst = new Array("Kdo/Co?   ", "Bez koho/čeho?", "Komu/čemu?    ", "Koho/Co?
 function vysklonuj(slovo) {
 	bwr(slovo)
 	for (ii = 0; ii < vzor.length; ii++)
-	if (isShoda(vzor[ii][1], slovo) >= 0) break;
+		if (isShoda(vzor[ii][1], slovo) >= 0) break;
 
 	if (ii >= vzor.length) {
 		wr("&nbsp;&nbsp;Sorry, nenasel jsem vzor.");
@@ -980,28 +987,28 @@ function SklStd(slovo, ii) {
 
 	// - seznam nedoresenych slov
 	for (jj = 0; jj < v0.length; jj++)
-	if (isShoda(v0[jj], slovo) >= 0) {
-		str = "Seznam výjimek [" + jj + "]. "
+		if (isShoda(v0[jj], slovo) >= 0) {
+			str = "Seznam výjimek [" + jj + "]. "
 
-		console.log(str + "Lituji, toto slovo zatím neumím správně vyskloňovat.");
-		return;
-	}
+			console.log(str + "Lituji, toto slovo zatím neumím správně vyskloňovat.");
+			return;
+		}
 
-	// nastaveni rodu
+		// nastaveni rodu
 	astrTvar[0] = vzor[ii][0];
 
 	// vlastni sklonovani
 	for (jj = 1; jj < 15; jj++)
-	astrTvar[jj] = Sklon(jj, ii, slovo);
+		astrTvar[jj] = Sklon(jj, ii, slovo);
 
 	// - seznam nepresneho sklonovani
 	for (jj = 0; jj < v3.length; jj++)
-	if (isShoda(v3[jj], slovo) >= 0) {
-		console.log("Pozor, v některých pádech nemusí být skloňování tohoto slova přesné.");
-		return;
-	}
+		if (isShoda(v3[jj], slovo) >= 0) {
+			console.log("Pozor, v některých pádech nemusí být skloňování tohoto slova přesné.");
+			return;
+		}
 
-	//  return SklFmt( astrTvar );
+		//  return SklFmt( astrTvar );
 }
 
 // Pokud je index>=0, je slovo výjimka ze seznamu "vx"(v10,...), definovaného výše.
@@ -1017,7 +1024,7 @@ function NdxInVx(vx, slovo) {
 
 function ndxV1(slovo) {
 	for (v1i = 0; v1i < v1.length; v1i++)
-	if (slovo == v1[v1i][0]) return v1i;
+		if (slovo == v1[v1i][0]) return v1i;
 
 	return -1;
 }
@@ -1046,7 +1053,7 @@ function SklV1(slovo, ii) {
 function skl2(slovo) {
 	astrTvar[0] = "???";
 	for (ii = 1; ii < 15; ii++)
-	astrTvar[ii] = "";
+		astrTvar[ii] = "";
 
 	flgV1 = ndxV1(slovo);
 
