@@ -15,7 +15,12 @@ exports.findOne = function (req, res) {
 		words,
 		errors = [],
 		zivotne,
-		result = [];
+		result = [],
+		json = false;
+
+	if (req.query.out === 'json') {
+		json = true;
+	}
 
 	if (req.body.slova) {
 		words = req.body.slova.split("\n");
@@ -39,7 +44,7 @@ exports.findOne = function (req, res) {
 		} else {
 			zivotne = false;
 		}
-		//console.log('Slova: ' + words, ', zivotne:', zivotne, ', oddelovac', separator);
+		console.log('Slova: ' + words, ', zivotne:', zivotne, ', oddelovac', separator);
 
 		var vysklonovane;
 		try {
@@ -53,12 +58,17 @@ exports.findOne = function (req, res) {
 				}
 			});
 
-			//console.log(result);
-			//res.json(result);
-			res.render('list', {
-				words: result,
-				errors: errors
-			});
+			if (json) {
+				res.json(result);
+			}
+			else {
+				//console.log(result);
+				//res.json(result);
+				res.render('list', {
+					words: result,
+					errors: errors
+				});
+			}
 		} catch (e) {
 			console.log(e);
 		}
