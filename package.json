@@ -6,7 +6,7 @@
 	"author": "Jan Liška <jan.liska@business-factory.cz> (http://business-factory.cz)",
 	"engines": {
 		"node": "0.10.11",
-		"npm": "latest"
+		"npm": "1.2.30"
 	},
 	"scripts": {
 		"start": "./node_modules/.bin/nodemon server.js"
