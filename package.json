@@ -5,8 +5,8 @@
 	"private": false,
 	"author": "Jan Liška <jan.liska@business-factory.cz> (http://business-factory.cz)",
 	"engines": {
-		"node": "0.8.14",
-		"npm": "1.1.65"
+		"node": "latest",
+		"npm": "latest"
 	},
 	"scripts": {
 		"start": "./node_modules/.bin/nodemon server.js"
