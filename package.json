@@ -5,7 +5,7 @@
 	"private": false,
 	"author": "Jan Liška <jan.liska@business-factory.cz> (http://business-factory.cz)",
 	"engines": {
-		"node": "latest",
+		"node": "0.10.11",
 		"npm": "latest"
 	},
 	"scripts": {
