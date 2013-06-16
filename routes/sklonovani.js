@@ -1,5 +1,6 @@
 //mongodb://heroku_app11305144:hh96vhejc94tebhfkplj5ajeuu@dbh15.mongolab.com:27157/heroku_app11305144
 
+// http://pteryx.net/sklonovani.html
 //var Sklonovani = require('../models/sklonovani.js');
 
 //
@@ -14,7 +15,6 @@ exports.findOne = function (req, res) {
 	var separator = req.query.oddelovac || ',',
 		words,
 		errors = [],
-		zivotne,
 		result = [],
 		json = false;
 
