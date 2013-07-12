@@ -3,7 +3,8 @@
 
 var express = require('express'),
 	fs = require('fs'),
-	sklonovani = require('./routes/sklonovani');
+	sklonovani = require('./routes/sklonovani'),
+	allowCrossDomain = require('./middleware/allowCrossDomain.js');
 
 var app = express();
 
@@ -16,7 +17,7 @@ app.set('view engine', 'jade');
 app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-//app.use(allowCrossDomain());
+app.use(allowCrossDomain());
 app.use(app.router);
 app.use(function(err, req, res, next){
   // logic for error handler

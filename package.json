@@ -4,15 +4,12 @@
 	"version": "0.0.1",
 	"private": false,
 	"author": "Jan Liška <jan.liska@business-factory.cz> (http://business-factory.cz)",
-	"engines": {
-		"node": "0.10.11",
-		"npm": "1.2.30"
-	},
 	"scripts": {
 		"start": "./node_modules/.bin/nodemon server.js"
 	},
 	"dependencies": {
 		"express": "latest",
-		"jade": "latest"
+		"jade": "latest",
+		"view-helpers": "latest"
 	}
 }
